@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_personal/src/containers/discover/discover.dart';
+import 'package:flutter_personal/src/containers/home/home.dart';
+import 'package:flutter_personal/src/containers/market/market.dart';
+import 'package:flutter_personal/src/containers/portfolio/portfolio.dart';
+import 'package:flutter_personal/src/containers/refer/refer.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lottie/lottie.dart';
 
@@ -14,46 +19,114 @@ class _DashboardState extends State<Dashboard> {
   final PageController pageController = PageController(initialPage: 0);
   int _selectedIndex = 0;
 
+  final List<Map<String, String>> navigationItems = [
+    {
+      'label': 'Home',
+      'inActiveIcon': 'assets/svg/lemonn-home.svg',
+      'activeIcon': 'assets/lottie/Dark_Home.json',
+    },
+    {
+      'label': 'Portfolio',
+      'inActiveIcon': 'assets/svg/lemonn-portfolio.svg',
+      'activeIcon': 'assets/lottie/Dark_Portfolio.json',
+    },
+    {
+      'label': '',
+      'inActiveIcon': 'assets/svg/lemonn-discover.svg',
+      'activeIcon': 'assets/lottie/Dark_Discover.json',
+    },
+    {
+      'label': 'Market',
+      'inActiveIcon': 'assets/svg/lemonn-market.svg',
+      'activeIcon': 'assets/lottie/Dark_Market.json',
+    },
+    {
+      'label': 'Refer',
+      'inActiveIcon': 'assets/svg/lemonn-refer.svg',
+      'activeIcon': 'assets/lottie/Dark_Refer.json',
+    },
+  ];
+
+  List<Expanded> _buildBottomNavigationBarItems() {
+    return List.generate(navigationItems.length, (index) {
+      var isActive = _selectedIndex == index;
+      var label = navigationItems[index]['label']!;
+      var activeIcon = navigationItems[index]['activeIcon']!;
+      var inActiveIcon = navigationItems[index]['inActiveIcon']!;
+      if (label == '') {
+        return Expanded(child: SizedBox.shrink());
+      }
+      return Expanded(
+        child: GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: () => _onItemTapped(index),
+            child: Column(
+              children: [
+                isActive
+                    ? Lottie.asset(activeIcon,
+                        width: 24, height: 24, repeat: false, fit: BoxFit.cover)
+                    : SvgPicture.asset(
+                        inActiveIcon,
+                        width: 24,
+                        height: 24,
+                      ),
+                Padding(
+                    padding: EdgeInsets.only(top: 4),
+                    child: Text(label,
+                        style: TextStyle(
+                          fontFamily: 'Nexa',
+                          fontSize: 10,
+                          fontWeight: FontWeight.w800,
+                          height: 1.2,
+                          textBaseline: TextBaseline.alphabetic,
+                          decorationThickness: 1.0,
+                          color: isActive ? Colors.black : Colors.grey,
+                        )))
+              ],
+            )),
+      );
+    });
+  }
+
   void _onItemTapped(int index) {
     HapticFeedback.lightImpact();
-    setState(() {
-      _selectedIndex = index;
-      pageController.jumpToPage(index);
-    });
+    pageController.jumpToPage(index);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Bottom Navigation Bar'),
-        centerTitle: true,
-      ),
-      body: PageView(
-        controller: pageController,
-        onPageChanged: (index) {
-          if (index == 2) {
-            return;
-          }
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
-        clipBehavior: Clip.antiAlias,
-        children: const <Widget>[
-          Home(),
-          Center(
-            child: Home(),
+      body: Stack(
+        children: [
+          PageView(
+            controller: pageController,
+            onPageChanged: (index) {
+              setState(() {
+                _selectedIndex = index;
+              });
+            },
+            clipBehavior: Clip.antiAlias,
+            children: const <Widget>[
+              Home(),
+              Portfolio(),
+              Discover(),
+              Market(),
+              Refer(),
+            ],
           ),
-          Center(
-            child: Home(),
-          ),
-          Center(
-            child: Home(),
-          ),
-          Center(
-            child: Home(),
-          ),
+          Positioned(
+              width: MediaQuery.of(context).size.width,
+              bottom: 0,
+              left: 0,
+              child: ClipPath(
+                clipBehavior: Clip.antiAlias,
+                clipper: CenterClipper(),
+                child: Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.only(top: 16, bottom: 16),
+                  child: Row(children: _buildBottomNavigationBarItems()),
+                ),
+              ))
         ],
       ),
       floatingActionButton: GestureDetector(
@@ -61,11 +134,11 @@ class _DashboardState extends State<Dashboard> {
         child: Container(
           width: 56,
           height: 56,
+          margin: const EdgeInsets.only(bottom: 40),
           decoration: BoxDecoration(
             color: _selectedIndex == 2 ? Color(0xFFAFE50E) : Colors.white,
             border: Border.all(color: Colors.white, width: 2),
-            borderRadius: BorderRadius.circular(
-                28), // 100% border radius for circular shape
+            borderRadius: BorderRadius.circular(28),
           ),
           child: Center(
             child: _selectedIndex == 2
@@ -81,187 +154,6 @@ class _DashboardState extends State<Dashboard> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: Stack(children: [
-        Positioned(
-          left: 0,
-          right: 0,
-          bottom: 0,
-          height: 92,
-          child: Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: const Color.fromARGB(70, 32, 255, 3),
-                  spreadRadius: 10,
-                  blurRadius: 10,
-                  offset: Offset(0, 0), // changes position of shadow
-                ),
-              ],
-            ),
-            child: ClipPath(
-              clipBehavior: Clip.antiAlias,
-              clipper: CenterClipper(),
-              child: Container(
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: BottomNavigationBar(
-                    type: BottomNavigationBarType.fixed,
-                    currentIndex: _selectedIndex,
-                    selectedItemColor: Colors.blue,
-                    unselectedItemColor: Colors.grey,
-                    backgroundColor: Colors.transparent,
-                    elevation: 0,
-                    selectedFontSize: 10,
-                    selectedLabelStyle: const TextStyle(
-                      fontFamily: 'Nexa',
-                      fontSize: 10,
-                      fontWeight: FontWeight.w800,
-                      height: 1.2,
-                      textBaseline: TextBaseline.alphabetic,
-                      decorationThickness: 1.0,
-                      decorationColor: Colors.blue,
-                    ),
-                    unselectedLabelStyle: const TextStyle(
-                      fontFamily: 'Nexa',
-                      fontSize: 10,
-                      fontWeight: FontWeight.w800,
-                      height: 1.2,
-                      textBaseline: TextBaseline.alphabetic,
-                      decorationThickness: 1.0,
-                      decorationColor: Colors.grey,
-                    ),
-                    items: [
-                      BottomNavigationBarItem(
-                        icon: _selectedIndex == 0
-                            ? Lottie.asset('assets/lottie/Dark_Home.json',
-                                width: 24,
-                                height: 24,
-                                repeat: false,
-                                fit: BoxFit.cover)
-                            : SvgPicture.asset(
-                                'assets/svg/lemonn-home.svg',
-                                width: 24,
-                                height: 24,
-                              ),
-                        label: 'Home',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: _selectedIndex == 1
-                            ? Lottie.asset('assets/lottie/Dark_Portfolio.json',
-                                width: 24,
-                                height: 24,
-                                repeat: false,
-                                fit: BoxFit.cover)
-                            : SvgPicture.asset(
-                                'assets/svg/lemonn-portfolio.svg',
-                                width: 24,
-                                height: 24,
-                              ),
-                        label: 'Portfolio',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: SizedBox.shrink(),
-                        label: '',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: _selectedIndex == 3
-                            ? Lottie.asset('assets/lottie/Dark_Market.json',
-                                width: 24,
-                                height: 24,
-                                repeat: false,
-                                fit: BoxFit.cover)
-                            : SvgPicture.asset(
-                                'assets/svg/lemonn-market.svg',
-                                width: 24,
-                                height: 24,
-                              ),
-                        label: 'Market',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: _selectedIndex == 4
-                            ? Lottie.asset('assets/lottie/Dark_Refer.json',
-                                width: 24,
-                                height: 24,
-                                repeat: false,
-                                fit: BoxFit.cover)
-                            : SvgPicture.asset(
-                                'assets/svg/lemonn-refer.svg',
-                                width: 24,
-                                height: 24,
-                              ),
-                        label: 'Refer',
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-        Container(
-          height: 82,
-          child: Positioned.fill(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () => _onItemTapped(0),
-                    child: Container(
-                      color: const Color.fromARGB(41, 231, 15, 0),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () => _onItemTapped(1),
-                    child: Container(
-                      color: const Color.fromARGB(41, 231, 15, 0),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () => _onItemTapped(2),
-                    child: Container(
-                      color: Colors.transparent,
-                    ),
-                  ), // Empty space for the FAB
-                ),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () => _onItemTapped(3),
-                    child: Container(
-                      color: const Color.fromARGB(41, 231, 15, 0),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () => _onItemTapped(4),
-                    child: Container(
-                      color: const Color.fromARGB(41, 231, 15, 0),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        )
-      ]),
-    );
-  }
-}
-
-class Home extends StatelessWidget {
-  const Home({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.red,
-      child: Text('Home'),
     );
   }
 }

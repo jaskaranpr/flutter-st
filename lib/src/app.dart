@@ -74,7 +74,7 @@ class MyApp extends StatelessWidget {
                     return const SampleItemDetailsView();
                   case SampleItemListView.routeName:
                   default:
-                    return const Dashboard();
+                    return const SafeArea(child: Dashboard()); 
                 }
               },
             );
