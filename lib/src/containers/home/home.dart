@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_personal/src/components/header/header.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -7,21 +6,18 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: Colors.red,
-        child: Column(
-          children: [
-            Header(page: "Home"),
-            Expanded(
-              child: ListView.builder(
-                itemCount: 20,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text('Home $index'),
-                  );
-                },
-              ),
+      color: Colors.blueGrey[900], // Dark background color
+      child: ListView.builder(
+        itemCount: 20,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(
+              'Home $index',
+              style: TextStyle(color: Colors.white), // Light text color
             ),
-          ],
-        ));
+          );
+        },
+      ),
+    );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_personal/src/components/header/header.dart';
 import 'package:flutter_personal/src/containers/discover/discover.dart';
 import 'package:flutter_personal/src/containers/home/home.dart';
 import 'package:flutter_personal/src/containers/market/market.dart';
@@ -98,20 +99,27 @@ class _DashboardState extends State<Dashboard> {
     return Scaffold(
       body: Stack(
         children: [
-          PageView(
-            controller: pageController,
-            onPageChanged: (index) {
-              setState(() {
-                _selectedIndex = index;
-              });
-            },
-            clipBehavior: Clip.antiAlias,
-            children: const <Widget>[
-              Home(),
-              Portfolio(),
-              Discover(),
-              Market(),
-              Refer(),
+          Column(
+            children: [
+              Header(page: "Dashboard"),
+              Expanded(
+                    child: PageView(
+                  controller: pageController,
+                  onPageChanged: (index) {
+                    setState(() {
+                    _selectedIndex = index;
+                    });
+                  },
+                  // physics: NeverScrollableScrollPhysics(), // Disable horizontal scroll
+                  clipBehavior: Clip.antiAlias,
+                  children: const <Widget>[
+                    Home(),
+                  Portfolio(),
+                  Discover(),
+                  Market(),
+                  Refer(),
+                ],
+              )),
             ],
           ),
           Positioned(

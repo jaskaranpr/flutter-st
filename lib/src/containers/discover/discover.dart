@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_personal/src/components/header/header.dart';
 
 class Discover extends StatelessWidget {
   const Discover({super.key});
@@ -7,21 +6,18 @@ class Discover extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: Colors.red,
-        child: Column(
-          children: [
-            Header(page: "Discover"),
-            Expanded(
-              child: ListView.builder(
-                itemCount: 20,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text('Discover $index'),
-                  );
-                },
-              ),
+      color: Colors.black, // Different background color
+      child: ListView.builder(
+        itemCount: 20,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(
+              'Portfolio $index',
+              style: TextStyle(color: Colors.amber), // Different text color
             ),
-          ],
-        ));
+          );
+        },
+      ),
+    );
   }
 }
