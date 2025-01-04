@@ -14,6 +14,8 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  flutter_svg: ^2.0.16
+  lottie: ^3.3.0
 
 dev_dependencies:
   flutter_test:
@@ -30,3 +32,15 @@ flutter:
   assets:
     # Add assets from the images directory to the application.
     - assets/images/
+    - assets/lottie/
+    - assets/svg/
+
+  fonts:
+    - family: Nexa
+      fonts:
+        - asset: assets/fonts/nexa_extra_bold.ttf
+          weight: 800
+        - asset: assets/fonts/nexa_bold.ttf
+          weight: 700
+        - asset: assets/fonts/nexa_regular.ttf
+          weight: 400
