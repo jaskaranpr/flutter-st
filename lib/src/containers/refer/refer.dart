@@ -8,12 +8,13 @@ class Refer extends StatelessWidget {
     return Container(
       color: Colors.teal[600],
       child: ListView.builder(
-        itemCount: 20,
+        itemCount: 200,
         itemBuilder: (context, index) {
           return ListTile(
+            key: ValueKey(index),
             title: Text(
               'Refer $index',
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
             ),
           );
         },

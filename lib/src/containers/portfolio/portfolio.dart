@@ -8,9 +8,10 @@ class Portfolio extends StatelessWidget {
     return Container(
       color: Colors.teal[700], // Dark background color
       child: ListView.builder(
-        itemCount: 20,
+        itemCount: 200,
         itemBuilder: (context, index) {
           return ListTile(
+            key: ValueKey(index),
             title: Text(
               'Portfolio $index',
               style:

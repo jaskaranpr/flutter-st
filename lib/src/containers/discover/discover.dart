@@ -8,12 +8,13 @@ class Discover extends StatelessWidget {
     return Container(
       color: Colors.black, // Different background color
       child: ListView.builder(
-        itemCount: 20,
+        itemCount: 200,
         itemBuilder: (context, index) {
           return ListTile(
+            key: ValueKey(index), 
             title: Text(
               'Portfolio $index',
-              style: TextStyle(color: Colors.amber), // Different text color
+              style: const TextStyle(color: Colors.amber), // Different text color
             ),
           );
         },

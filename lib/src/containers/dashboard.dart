@@ -90,7 +90,9 @@ class _DashboardState extends State<Dashboard> {
   }
 
   void _onItemTapped(int index) {
-    HapticFeedback.lightImpact();
+    if (_selectedIndex != index) {
+      HapticFeedback.lightImpact();
+    }
     pageController.jumpToPage(index);
   }
 
@@ -103,17 +105,17 @@ class _DashboardState extends State<Dashboard> {
             children: [
               Header(page: "Dashboard"),
               Expanded(
-                    child: PageView(
-                  controller: pageController,
-                  onPageChanged: (index) {
-                    setState(() {
+                  child: PageView(
+                controller: pageController,
+                onPageChanged: (index) {
+                  setState(() {
                     _selectedIndex = index;
-                    });
-                  },
-                  // physics: NeverScrollableScrollPhysics(), // Disable horizontal scroll
-                  clipBehavior: Clip.antiAlias,
-                  children: const <Widget>[
-                    Home(),
+                  });
+                },
+                // physics: NeverScrollableScrollPhysics(), // Disable horizontal scroll
+                clipBehavior: Clip.antiAlias,
+                children: const <Widget>[
+                  Home(),
                   Portfolio(),
                   Discover(),
                   Market(),

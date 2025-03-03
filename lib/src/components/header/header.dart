@@ -15,7 +15,6 @@ class Header extends StatelessWidget {
         children: [
           Image.network(
             'https://files.coinswitch.co/genesis-static-assets/assets/lemonn_light.png',
-            // 'https://picsum.photos/250?image=7',
             width: 95,
             height: 40,
             fit: BoxFit.cover,
@@ -24,7 +23,6 @@ class Header extends StatelessWidget {
             children: [
               Image.network(
                 'https://files.coinswitch.co/genesis-static-assets/assets/header_search_light.png',
-                // 'https://picsum.photos/250?image=8',
                 width: 36,
                 height: 36,
                 fit: BoxFit.cover,
@@ -32,7 +30,6 @@ class Header extends StatelessWidget {
               SizedBox(width: 12),
               Image.network(
                 'https://files.coinswitch.co/genesis-static-assets/icons/general/png/smile_blue.png',
-                // 'https://picsum.photos/250?image=9',
                 width: 36,
                 height: 36,
                 fit: BoxFit.cover,
